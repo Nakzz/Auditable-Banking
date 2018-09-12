@@ -121,7 +121,7 @@ public class AuditableBanking {
 
 
         }
-        return -1;
+        return allTransactionsCount;
     }
 
     /**
@@ -179,7 +179,7 @@ public class AuditableBanking {
             }
 
         }
-        return -1;
+        return CurrentBalance;
     }
 
     /**
