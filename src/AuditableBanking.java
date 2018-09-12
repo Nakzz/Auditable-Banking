@@ -51,25 +51,19 @@ public class AuditableBanking {
      */
     public static int submitTransactions(int[] newTransactions, int[][] allTransactions,
         int allTransactionsCount) {
-        int i; 
         if(allTransactions.length == allTransactionsCount) {
             return allTransactionsCount;
         }
-        else {
-            
-                allTransactions[i] = newTransactions;
-                i++;
+        else {          
+                allTransactions[allTransactionsCount + 1] = newTransactions;
                 allTransactionsCount++;
-                return allTransactionsCount;
-            
+                return allTransactionsCount;  
         }
-        
-        
-        
+           
       return -1;
     }
 
-}
+
 
     /**
      * takes such a string as command/input, and correctly adds a new transaction group to the 
@@ -101,7 +95,6 @@ public static int processCommand(String command, int[][] allTransactions, int al
             }
         }
         else if(commandAsArrayInt[0] == 2) {
-           
             allTransactions[2][i] = commandAsArrayInt;
             }
             
@@ -143,7 +136,7 @@ public static int calculateCurrentBalance(int[][] allTransactions, int allTransa
                 }
             }
             if(i == 2 && j < 5) {
-            }
+            
                 if(allTransactions[2][1] > 0) {
                     CurrentBalance = CurrentBalance - (20 * allTransactions[2][2]);
                 }
@@ -160,7 +153,7 @@ public static int calculateCurrentBalance(int[][] allTransactions, int allTransa
             }
      }
          
-    
+  }
   return -1;
 }
 
