@@ -1,4 +1,4 @@
-//////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+e//////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 // Title:           Auditable Banking
 // Files:           AuditableBanking.java, AuditableBankingTests.java
@@ -51,21 +51,24 @@ public class AuditableBanking {
      */
     public static int submitTransactions(int[] newTransactions, int[][] allTransactions,
         int allTransactionsCount) {
-
-//        int i; 
-//        if(allTransactions.length == allTransactionsCount) {
-//            return allTransactionsCount;
-//        }
-//        else {
-//            while(allTransactions.length != allTransactionsCount) {
-//                allTransactions[i] = newTransactions;
-//                i++;
-//                allTransactionsCount++;
-//                return allTransactionsCount;
-//            }
-//        }
+        int i; 
+        if(allTransactions.length == allTransactionsCount) {
+            return allTransactionsCount;
+        }
+        else {
+            
+                allTransactions[i] = newTransactions;
+                i++;
+                allTransactionsCount++;
+                return allTransactionsCount;
+            
+        }
         
-return -1;
+        
+        
+      return -1;
+    }
+
 }
 
     /**
@@ -79,7 +82,7 @@ return -1;
      * @return the number of transaction groups within allTransactions after newTransactions is added.
      */
 public static int processCommand(String command, int[][] allTransactions, int allTransactionsCount) {
-     //TODO: Implement this method
+    // TODO: Implement this method
         String[] commandAsArray = new String[command.length()];
         commandAsArray = command.split(" ");
         int[] commandAsArrayInt = new int[commandAsArray.length];
@@ -118,16 +121,16 @@ public static int processCommand(String command, int[][] allTransactions, int al
      */
 
 public static int calculateCurrentBalance(int[][] allTransactions, int allTransactionsCount) {
-   //TODO: Implement this method
+  // TODO: Implement this method
     int CurrentBalance = 0;
      for(int i= 0; i < allTransactions.length; i++) { // should I use allTransactions.length or 3??
          for(int j=0; j < allTransactions[i].length; j++) {
              if(i == 0) {
-                 if(allTransactions[0][j] = 0) {
+                 if(allTransactions[0][j] == 0) {
                      CurrentBalance++;
                  }
              
-                 else if(allTransactions[0][j]) {
+                 else if(allTransactions[0][j] == 1) {
                      CurrentBalance--;
                  }
          }
@@ -139,8 +142,21 @@ public static int calculateCurrentBalance(int[][] allTransactions, int allTransa
                     CurrentBalance = CurrentBalance - allTransactions[1][j];
                 }
             }
-            if(i == 2) {
-//                if()
+            if(i == 2 && j < 5) {
+            }
+                if(allTransactions[2][1] > 0) {
+                    CurrentBalance = CurrentBalance - (20 * allTransactions[2][2]);
+                }
+                if(allTransactions[2][2] > 0) {
+                    CurrentBalance = CurrentBalance - (40 * allTransactions[2][2]);
+                }
+                if(allTransactions[2][3] > 0) {
+                    CurrentBalance = CurrentBalance - (80 * allTransactions[2][3]);
+                }
+                if(allTransactions[2][4] > 0) {
+                    CurrentBalance = CurrentBalance - (100 * allTransactions[2][4]);
+                }
+                
             }
      }
          
@@ -149,45 +165,18 @@ public static int calculateCurrentBalance(int[][] allTransactions, int allTransa
 }
 
     /**
-     * takes collections of transactions and number of transactions to return calculated number of overdraft. 
+     * takes such a string as command/input, and correctly adds a new transaction group to the 
+     * provided set of transactions groups then this method will do nothing other than return allTransactionCount.
      * 
+     * @param command is the command of input entered by the user, which is added to Transaction group.
      * @param allTransactions is the collection that newTransactions is being added to (oversize).
      * @param allTransactionsCount is the number of transaction groups within allTransactions 
      *        (before newTransactions is added. 
-     * @return the number of overdrafts.
+     * @return the number of transaction groups within allTransactions after newTransactions is added.
      */
 
 
 public static int calculateNumberOfOverdrafts(int[][] allTransactions, int allTransactionsCount) {
-  
-    int balance =0;
-    int[] groupTransactions;
-    int overdraftNum =0;
-    
-    for(int i=0; i < allTransactionsCount; i++) {
-        groupTransactions = allTransactions[i];
-        
-        System.out.println();
-        System.out.println("Group of transaction");
-        System.out.println();
-        
-        for(int j=0; j< groupTransactions.length; j++) {
-            balance += groupTransactions[j];
-            
-            System.out.println("Balance: "+ balance);
-            
-            if (balance < 0) {
-                overdraftNum++;
-            }
-            
-            
-        }
-        
-        
-    }
-    
-    
-    
-  return overdraftNum;
-}
+  // TODO: Implement this method
+  return -1;
 }
