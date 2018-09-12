@@ -198,7 +198,27 @@ public class AuditableBanking {
 
     public static int calculateNumberOfOverdrafts(int[][] allTransactions,
         int allTransactionsCount) {
-        // TODO: Implement this method
-        return -1;
+        int balance =0;
+        int[] groupTransactions;
+        int overdraftNum =0;
+        
+        for(int i=0; i < allTransactionsCount; i++) {
+            groupTransactions = allTransactions[i];
+            
+            System.out.println("Group");
+            
+            for(int j=0; j< groupTransactions.length; j++) {
+                balance += groupTransactions[j];
+                
+                System.out.println("Balance: "+ balance);
+                
+                if (balance < 0) {
+                    overdraftNum++;
+                }                              
+            }                        
+        }       
+        
+      return overdraftNum;
     }
+ 
 }
