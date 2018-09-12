@@ -105,8 +105,7 @@ public class AuditableBanking {
                 }
             }
 
-            allTransactionsCount =
-                submitTransactions(newTransaction, allTransactions, allTransactionsCount);
+            
         }
 
         else if (commandAsArrayInt[0] == 1) { // Integer Amount Transactions
@@ -118,10 +117,10 @@ public class AuditableBanking {
             for (int c = 1; c < commandAsArray.length; c++) {
                 newTransaction[c - 1] = quickWithdraw[Integer.parseInt(commandAsArray[c])];
             }
-
-
         }
-        return -1;
+        allTransactionsCount =
+            submitTransactions(newTransaction, allTransactions, allTransactionsCount);
+        return allTransactionsCount;
     }
 
     /**
