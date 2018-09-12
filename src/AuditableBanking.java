@@ -118,8 +118,11 @@ public class AuditableBanking {
                 newTransaction[c - 1] = quickWithdraw[Integer.parseInt(commandAsArray[c])];
             }
         }
+
+        
         allTransactionsCount =
             submitTransactions(newTransaction, allTransactions, allTransactionsCount);
+
         return allTransactionsCount;
     }
 
@@ -178,7 +181,7 @@ public class AuditableBanking {
             }
 
         }
-        return -1;
+        return CurrentBalance;
     }
 
     /**
