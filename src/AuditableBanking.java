@@ -82,28 +82,43 @@ public class AuditableBanking {
      * @return the number of transaction groups within allTransactions after newTransactions is added.
      */
 public static int processCommand(String command, int[][] allTransactions, int allTransactionsCount) {
-    // TODO: Implement this method
+
         String[] commandAsArray = new String[command.length()];
         commandAsArray = command.split(" ");
         int[] commandAsArrayInt = new int[commandAsArray.length];
+        int[] newTransaction;
+        int[] quickWithdraw = {0,20,40,80, 100};
+        
         for (int i=0; i < commandAsArray.length; i++) {
             commandAsArrayInt[i] = Integer.parseInt(commandAsArray[i]);
         }
+        
         if(allTransactions.length == allTransactionsCount) {
             return allTransactionsCount;
         }
         
-        else if(commandAsArrayInt[0] == 0) {
-            allTransactions[0][i] = commandAsArrayInt;
-        }
-        else if(commandAsArrayInt[0] == 1) {
-            allTransactions[1][i] = commandAsArrayInt;
+        if(commandAsArrayInt[0] == 0) {     // Binary Amount Transactions:  
+            
+            for(int c=1;c < commandAsArray.length; c++ ) {
+                if(commandAsArrayInt[c] == 0) {     //Withdraw dollar
+                    newTransaction[c-1] = -1;
+                } else if(commandAsArrayInt[c] == 1) {     // Deposits dollar
+                    newTransaction[c-1] = 1;
+                }    
             }
+            
+            allTransactionsCount = submitTransactions(newTransaction, allTransactions, allTransactionsCount);
         }
-        else if(commandAsArrayInt[0] == 2) {
-           
-            allTransactions[2][i] = commandAsArrayInt;
+        else if(commandAsArrayInt[0] == 1) {        //Integer Amount Transactions
+            for(int c=1;c < commandAsArray.length; c++ ) {             
+                    newTransaction[c-1] = Integer.parseInt(commandAsArray[c]);   
+            }                        
             }
+        else if(commandAsArrayInt[0] == 2) {        // Quick Withdraw Transactions
+            for(int c=1;c < commandAsArray.length; c++ ) {
+                    newTransaction[c-1] = quickWithdraw[Integer.parseInt(commandAsArray[c])];
+            }
+            
             
         }
     return -1;
