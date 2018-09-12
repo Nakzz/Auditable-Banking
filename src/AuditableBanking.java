@@ -58,6 +58,7 @@ public class AuditableBanking {
 
         allTransactions[allTransactionsCount + 1] = newTransactions;
         allTransactionsCount++;
+        
         return allTransactionsCount;
 
     }
