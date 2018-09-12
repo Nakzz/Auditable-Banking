@@ -52,13 +52,16 @@ public class AuditableBanking {
     public static int submitTransactions(int[] newTransactions, int[][] allTransactions,
         int allTransactionsCount) {
       
-        if(allTransactions.length == allTransactionsCount) {
+        if(allTransactions.length > allTransactionsCount) {
             return allTransactionsCount;
         }
         
+        int newTransactionsCount = allTransactionsCount +1;
         
         
-      return -1;
+        allTransactions[newTransactionsCount] = newTransactions; 
+        
+      return newTransactionsCount;
     }
 
 }
