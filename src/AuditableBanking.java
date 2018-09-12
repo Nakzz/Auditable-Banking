@@ -1,4 +1,4 @@
-e//////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 // Title:           Auditable Banking
 // Files:           AuditableBanking.java, AuditableBankingTests.java
