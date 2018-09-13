@@ -189,7 +189,8 @@ public class AuditableBanking {
             } else if (eachTransaction[0] == 2) { // Quick Withdraw Transactions
 
                 for (int c = 1; c < eachTransaction.length; c++) {
-                    balance += -quickWithdraw[(eachTransaction[c])];
+                    
+                    balance += -quickWithdraw[c-1] * eachTransaction[c] ;
                 }
             }
 
