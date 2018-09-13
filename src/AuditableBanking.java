@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.Scanner;
 
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
@@ -36,10 +36,35 @@ import java.util.Arrays;
 
 public class AuditableBanking {
 
-     public static void main(String[] args) {
-    // // TODO Auto-generated method stub
-    //
-     }
+    public static void main(String[] args) {
+
+        Scanner scnr = new Scanner(System.in);
+        String input = "";
+        int[][] allTransactions = new int[100][];
+        int allTransactionsCount = 0;
+
+        System.out.println("========== Welcome to the Auditable Banking App ==========");
+
+        while (!input.equalsIgnoreCase("Q")) {
+            System.out.println("COMMAND MENU:");
+            System.out
+                .println("  Submit a Transaction (enter sequence of integers separated by spaces)");
+            System.out.println("  Show Current [B]alance");
+            System.out.println("  Show Number of [O]verdrafts");
+            System.out.println("  [Q]uit Program");
+            System.out.println("ENTER COMMAND: ");
+
+            input = scnr.nextLine().toUpperCase();
+
+            allTransactionsCount = processCommand(input, allTransactions, allTransactionsCount);
+            System.out.println("");
+        }
+
+        System.out.println("============ Thank you for using this App!!!! ============");
+
+
+
+    }
 
     /**
      * Adds a transaction group to an array of transaction groups. If the allTransactions array is
@@ -60,10 +85,10 @@ public class AuditableBanking {
 
         allTransactions[allTransactionsCount] = newTransactions;
         allTransactionsCount++;
-        
-        //DEBUG AJ
-        System.out.println("Final allTransactionCount: "+ allTransactionsCount);
-        
+
+        // DEBUG AJ
+        System.out.println("Final allTransactionCount: " + allTransactionsCount);
+
         return allTransactionsCount;
 
     }
@@ -86,39 +111,40 @@ public class AuditableBanking {
     public static int processCommand(String command, int[][] allTransactions,
         int allTransactionsCount) {
 
-      //DEBUG AJ
-        System.out.println("command before being split: "+ command);
-        System.out.println("allTransactionsCount before being split: "+ allTransactionsCount);
-        
         String[] commandAsArray = new String[command.length()];
         commandAsArray = command.split(" ");
-      
-        //DEBUG AJ
-        System.out.println("commandAsArray after being split: "+ Arrays.toString(commandAsArray));
-        
-        int[] commandAsArrayInt = new int[commandAsArray.length];
-        int[] newTransaction = new int[commandAsArray.length - 1];
-        int[] quickWithdraw = {20, 40, 80, 100};
-        
-        for (int i = 0; i < commandAsArray.length; i++) {
-            commandAsArrayInt[i] = Integer.parseInt(commandAsArray[i]);
-        }
-        
+
+
+        int[] newTransaction = new int[commandAsArray.length];
+        int balance, overdraftNum;
+
+
         if (allTransactions.length == allTransactionsCount) {
             return allTransactionsCount;
-        } else if (commandAsArrayInt[0] == 0 || commandAsArrayInt[0] == 1 || commandAsArrayInt[0] == 2) { 
-        
-            for (int c = 1; c < commandAsArray.length; c++) {
- 
-                    newTransaction[c - 1] = commandAsArrayInt[c];
+        } else if (commandAsArray[0].equalsIgnoreCase("0")
+            || commandAsArray[0].equalsIgnoreCase("1") || commandAsArray[0].equalsIgnoreCase("2")) {
+
+            for (int c = 0; c < commandAsArray.length; c++) {
+                newTransaction[c] = Integer.parseInt(commandAsArray[c]);
             }
-            
+
             allTransactionsCount =
                 submitTransactions(newTransaction, allTransactions, allTransactionsCount);
+        } else if (commandAsArray[0].equalsIgnoreCase("B")) {
+
+            balance = calculateCurrentBalance(allTransactions, allTransactionsCount);
+
+            System.out.println("Current Balance: " + balance);
+
+        } else if (commandAsArray[0].equalsIgnoreCase("O")) {
+
+            overdraftNum = calculateNumberOfOverdrafts(allTransactions, allTransactionsCount);
+
+            System.out.println("Number of Overdrafts: " + overdraftNum);
         }
 
-        
-        
+
+
         return allTransactionsCount;
     }
 
@@ -139,83 +165,36 @@ public class AuditableBanking {
     public static int calculateCurrentBalance(int[][] allTransactions, int allTransactionsCount) {
 
         int balance = 0;
+        int[] quickWithdraw = {0, 20, 40, 80, 100};
 
         for (int i = 0; i < allTransactionsCount; i++) {
-            
-            int [] eachTransaction = allTransactions[i];
-            
-                
-                if (eachTransaction[0] == 0) // Binary Amount Transactions
-                    
-//              //DEBUG AJ
-//              System.out.println("Entered Binary Transaction Processing: "+ Arrays.toString(commandAsArray));
-//              
-              for (int c = 1; c < eachTransaction.length; c++) {
-                  if (eachTransaction[c] == 0) { // Withdraw dollar
-                      balance += -1;
-                  } else if (eachTransaction[c] == 1) { // Deposits dollar
-                      balance += = 1;
-                  }
-              }
-              
 
+            int[] eachTransaction = allTransactions[i];
 
-          else if (eachTransaction[0] == 1) { // Integer Amount Transactions
-//              //DEBUG AJ
-//              System.out.println("Entered Integer Transaction Processing: "+ commandAsArray);
-//              
-              for (int c = 1; c < commandAsArray.length; c++) {
-                  newTransaction[c - 1] = Integer.parseInt(commandAsArray[c]);
-              }
-              canAddTransaction = true;
-          } else if (commandAsArrayInt[0] == 2) { // Quick Withdraw Transactions
-//              //DEBUG AJ
-//              System.out.println("Entered Quick Transaction Processing: "+ commandAsArray);
-//              
-              
-              for (int c = 1; c < commandAsArray.length; c++) {
-                  newTransaction[c - 1] = quickWithdraw[Integer.parseInt(commandAsArray[c])];
-              }
-              canAddTransaction = true;
-                
-                
-                
-                if (i == 0) {
-                    if (allTransactions[0][j] == 0) {
-                        CurrentBalance++;
-                    }
-
-                    else if (allTransactions[0][j] == 1) {
-                        CurrentBalance--;
+            if (eachTransaction[0] == 0) // Binary Amount Transactions
+                for (int c = 1; c < eachTransaction.length; c++) {
+                    if (eachTransaction[c] == 0) { // Withdraw dollar
+                        balance += -1;
+                    } else if (eachTransaction[c] == 1) { // Deposits dollar
+                        balance += 1;
                     }
                 }
-                if (i == 1) {
-                    if (allTransactions[1][j] > 0) {
-                        CurrentBalance = CurrentBalance + allTransactions[1][j];
-                    } else if (allTransactions[1][j] < 0) {
-                        CurrentBalance = CurrentBalance - allTransactions[1][j];
-                    }
+
+            else if (eachTransaction[0] == 1) { // Integer Amount Transactions
+
+                for (int c = 1; c < eachTransaction.length; c++) {
+                    balance += eachTransaction[c];
                 }
-                if (i == 2 && j < 5) {
 
-                    if (allTransactions[2][1] > 0) {
-                        CurrentBalance = CurrentBalance - (20 * allTransactions[2][2]);
-                    }
-                    if (allTransactions[2][2] > 0) {
-                        CurrentBalance = CurrentBalance - (40 * allTransactions[2][2]);
-                    }
-                    if (allTransactions[2][3] > 0) {
-                        CurrentBalance = CurrentBalance - (80 * allTransactions[2][3]);
-                    }
-                    if (allTransactions[2][4] > 0) {
-                        CurrentBalance = CurrentBalance - (100 * allTransactions[2][4]);
-                    }
+            } else if (eachTransaction[0] == 2) { // Quick Withdraw Transactions
 
+                for (int c = 1; c < eachTransaction.length; c++) {
+                    balance += -quickWithdraw[(eachTransaction[c])];
                 }
             }
 
         }
-        return CurrentBalance;
+        return balance;
     }
 
     /**
@@ -235,27 +214,71 @@ public class AuditableBanking {
 
     public static int calculateNumberOfOverdrafts(int[][] allTransactions,
         int allTransactionsCount) {
-        int balance =0;
-        int[] groupTransactions;
-        int overdraftNum =0;
-        
-        for(int i=0; i < allTransactionsCount; i++) {
-            groupTransactions = allTransactions[i];
-            
-            System.out.println("Group");
-            
-            for(int j=0; j< groupTransactions.length; j++) {
-                balance += groupTransactions[j];
-                
-                System.out.println("Balance: "+ balance);
-                
+        int balance = 0;
+        int overdraftNum = 0;
+        int[] quickWithdraw = {20, 40, 80, 100};
+
+        for (int i = 0; i < allTransactionsCount; i++) {
+
+            int[] eachTransaction = allTransactions[i];
+
+
+            if (eachTransaction[0] == 0) // Binary Amount Transactions
+
+                for (int c = 1; c < eachTransaction.length; c++) {
+                    if (eachTransaction[c] == 0) { // Withdraw dollar
+                        balance += -1;
+
+                        if (balance < 0) {
+                            overdraftNum++;
+                            // //DEBUG AJ
+//                            System.out.println("Incrementing overdraft. Balance: : " + balance);
+                        }
+
+                    } else if (eachTransaction[c] == 1) { // Deposits dollar
+                        balance += 1;
+                    }
+
+                }
+
+            else if (eachTransaction[0] == 1) { // Integer Amount Transactions
+                // //DEBUG AJ
+                // System.out.println("Entered Integer Transaction Processing: "+ commandAsArray);
+                //
+                for (int c = 1; c < eachTransaction.length; c++) {
+                    balance += eachTransaction[c];
+
+                    if (balance < 0 && eachTransaction[c] < 0) {
+                        overdraftNum++;
+                        // //DEBUG AJ
+                        //System.out.println("Incrementing overdraft. Balance: : " + balance);
+                    }
+                }
+
+
+            } else if (eachTransaction[0] == 2) { // Quick Withdraw Transactions
+                // //DEBUG AJ
+                // System.out.println("Entered Quick Transaction Processing: "+ commandAsArray);
+                //
+                for (int c = 1; c < eachTransaction.length; c++) {
+                    balance += -quickWithdraw[(eachTransaction[c])];
+                }
                 if (balance < 0) {
                     overdraftNum++;
-                }                              
-            }                        
-        }       
-        
-      return overdraftNum;
+                    // //DEBUG AJ
+//                    System.out.println("Incrementing overdraft. Balance: : " + balance);
+                }
+            }
+
+
+            // DEBUG AJ
+//            System.out.println("End of a transaction group. Balance: : " + balance);
+//            System.out.println();
+//            System.out.println();
+
+        }
+
+        return overdraftNum;
     }
- 
+
 }
