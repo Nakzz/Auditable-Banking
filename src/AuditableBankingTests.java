@@ -38,13 +38,41 @@ public class AuditableBankingTests {
 
      public static void main(String[] args) {
          
-         testCalculateNumberOfOverdrafts();
-    
+//         testCalculateNumberOfOverdrafts();
+         testProcessCommand();
+         
      }
 
+     
+     //TODO: make tests for quick withdraw and normal transaction. atleast 2 more. 
+     //TODO: write method descriptions 
     public static boolean testProcessCommand() {
-        // TODO: Implement this method
-        return false;
+        
+        int[][] transactions = new int[100][] ;
+        int[] transaction1 = {1, 10, -20, 30, -20, -20};
+        int[] transaction2 = {0, 1, 1, 1, 0, 0, 1, 1, 1, 1};
+        
+        transactions[0] = transaction1;
+        transactions[1] = transaction2;
+
+        boolean foundProblem = false;
+        
+        String command = "0 0 1 1 0 1 1";
+        int count = 2;
+        
+        int resultCount = AuditableBanking.processCommand(command, transactions, count);
+        
+        if(resultCount == 3 && transactions[2][2]==1) {
+            System.out.println("PASSED TESTS 1/1 of testProcessCommand!!!");
+            foundProblem = false;
+        } else {
+            System.out.println(
+                "FAILURE: processCommand returned: "+ resultCount+ ", and transactions contained: "
+                    + Arrays.deepToString(transactions));
+            foundProblem = true;
+        }
+        
+        return foundProblem;
     }
 
     public static boolean testCalculateCurrentBalance() {

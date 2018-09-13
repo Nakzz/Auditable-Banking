@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 // Title: Auditable Banking
@@ -34,10 +36,10 @@
 
 public class AuditableBanking {
 
-    // public static void main(String[] args) {
+     public static void main(String[] args) {
     // // TODO Auto-generated method stub
     //
-    // }
+     }
 
     /**
      * Adds a transaction group to an array of transaction groups. If the allTransactions array is
@@ -56,8 +58,11 @@ public class AuditableBanking {
             return allTransactionsCount;
         }
 
-        allTransactions[allTransactionsCount + 1] = newTransactions;
+        allTransactions[allTransactionsCount] = newTransactions;
         allTransactionsCount++;
+        
+        //DEBUG AJ
+        System.out.println("Final allTransactionCount: "+ allTransactionsCount);
         
         return allTransactionsCount;
 
@@ -81,48 +86,39 @@ public class AuditableBanking {
     public static int processCommand(String command, int[][] allTransactions,
         int allTransactionsCount) {
 
+      //DEBUG AJ
+        System.out.println("command before being split: "+ command);
+        System.out.println("allTransactionsCount before being split: "+ allTransactionsCount);
+        
         String[] commandAsArray = new String[command.length()];
         commandAsArray = command.split(" ");
+      
+        //DEBUG AJ
+        System.out.println("commandAsArray after being split: "+ Arrays.toString(commandAsArray));
+        
         int[] commandAsArrayInt = new int[commandAsArray.length];
-        int[] newTransaction = null;
-        int[] quickWithdraw = {0, 20, 40, 80, 100};
-
+        int[] newTransaction = new int[commandAsArray.length - 1];
+        int[] quickWithdraw = {20, 40, 80, 100};
+        
         for (int i = 0; i < commandAsArray.length; i++) {
             commandAsArrayInt[i] = Integer.parseInt(commandAsArray[i]);
         }
-
+        
         if (allTransactions.length == allTransactionsCount) {
             return allTransactionsCount;
-        }
-
-        if (commandAsArrayInt[0] == 0) { // Binary Amount Transactions:
-
+        } else if (commandAsArrayInt[0] == 0 || commandAsArrayInt[0] == 1 || commandAsArrayInt[0] == 2) { 
+        
             for (int c = 1; c < commandAsArray.length; c++) {
-                if (commandAsArrayInt[c] == 0) { // Withdraw dollar
-                    newTransaction[c - 1] = -1;
-                } else if (commandAsArrayInt[c] == 1) { // Deposits dollar
-                    newTransaction[c - 1] = 1;
-                }
+ 
+                    newTransaction[c - 1] = commandAsArrayInt[c];
             }
-
             
-        }
-
-        else if (commandAsArrayInt[0] == 1) { // Integer Amount Transactions
-            for (int c = 1; c < commandAsArray.length; c++) {
-                newTransaction[c - 1] = Integer.parseInt(commandAsArray[c]);
-            }
-
-        } else if (commandAsArrayInt[0] == 2) { // Quick Withdraw Transactions
-            for (int c = 1; c < commandAsArray.length; c++) {
-                newTransaction[c - 1] = quickWithdraw[Integer.parseInt(commandAsArray[c])];
-            }
+            allTransactionsCount =
+                submitTransactions(newTransaction, allTransactions, allTransactionsCount);
         }
 
         
-        allTransactionsCount =
-            submitTransactions(newTransaction, allTransactions, allTransactionsCount);
-
+        
         return allTransactionsCount;
     }
 
@@ -141,11 +137,49 @@ public class AuditableBanking {
      */
 
     public static int calculateCurrentBalance(int[][] allTransactions, int allTransactionsCount) {
-        // TODO: Implement this method
-        int CurrentBalance = 0;
-        for (int i = 0; i < allTransactions.length; i++) { // should I use allTransactions.length or
-                                                           // 3??
-            for (int j = 0; j < allTransactions[i].length; j++) {
+
+        int balance = 0;
+
+        for (int i = 0; i < allTransactionsCount; i++) {
+            
+            int [] eachTransaction = allTransactions[i];
+            
+                
+                if (eachTransaction[0] == 0) // Binary Amount Transactions
+                    
+//              //DEBUG AJ
+//              System.out.println("Entered Binary Transaction Processing: "+ Arrays.toString(commandAsArray));
+//              
+              for (int c = 1; c < eachTransaction.length; c++) {
+                  if (eachTransaction[c] == 0) { // Withdraw dollar
+                      balance += -1;
+                  } else if (eachTransaction[c] == 1) { // Deposits dollar
+                      balance += = 1;
+                  }
+              }
+              
+
+
+          else if (eachTransaction[0] == 1) { // Integer Amount Transactions
+//              //DEBUG AJ
+//              System.out.println("Entered Integer Transaction Processing: "+ commandAsArray);
+//              
+              for (int c = 1; c < commandAsArray.length; c++) {
+                  newTransaction[c - 1] = Integer.parseInt(commandAsArray[c]);
+              }
+              canAddTransaction = true;
+          } else if (commandAsArrayInt[0] == 2) { // Quick Withdraw Transactions
+//              //DEBUG AJ
+//              System.out.println("Entered Quick Transaction Processing: "+ commandAsArray);
+//              
+              
+              for (int c = 1; c < commandAsArray.length; c++) {
+                  newTransaction[c - 1] = quickWithdraw[Integer.parseInt(commandAsArray[c])];
+              }
+              canAddTransaction = true;
+                
+                
+                
                 if (i == 0) {
                     if (allTransactions[0][j] == 0) {
                         CurrentBalance++;
