@@ -165,7 +165,7 @@ public class AuditableBanking {
     public static int calculateCurrentBalance(int[][] allTransactions, int allTransactionsCount) {
 
         int balance = 0;
-        int[] quickWithdraw = {0, 20, 40, 80, 100};
+        int[] quickWithdraw = {20, 40, 80, 100};
 
         for (int i = 0; i < allTransactionsCount; i++) {
 

@@ -40,7 +40,7 @@ public class AuditableBankingTests {
          
 //         testCalculateNumberOfOverdrafts();
 //         testProcessCommand();
-//         testCalculateCurrentBalance();
+         testCalculateCurrentBalance();
          
      }
 
