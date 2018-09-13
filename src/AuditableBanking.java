@@ -87,7 +87,7 @@ public class AuditableBanking {
         allTransactionsCount++;
 
         // DEBUG AJ
-        System.out.println("Final allTransactionCount: " + allTransactionsCount);
+//        System.out.println("Final allTransactionCount: " + allTransactionsCount);
 
         return allTransactionsCount;
 
