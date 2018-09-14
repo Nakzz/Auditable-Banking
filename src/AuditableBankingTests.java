@@ -39,14 +39,11 @@ public class AuditableBankingTests {
      public static void main(String[] args) {
          
 //         testCalculateNumberOfOverdrafts();
-//         testProcessCommand();
-         testCalculateCurrentBalance();
+         testProcessCommand();
+//         testCalculateCurrentBalance();
          
      }
 
-     
-     //TODO: make tests for quick withdraw and normal transaction. atleast 2 more. 
-     //TODO: write method descriptions 
      
      /**
       * Goal of this test method is to determine if there is a problem within the ProcessCommand method 
@@ -60,9 +57,11 @@ public class AuditableBankingTests {
         int[][] transactions = new int[100][] ; //oversized array
         int[] transaction1 = {1, 10, -20, 30, -20, -20}; //perfect size array
         int[] transaction2 = {0, 1, 1, 1, 0, 0, 1, 1, 1, 1}; //perfect size array
+        int[] transaction3 = {2, 1, 2, 3, 0}; //perfect size array
         
         transactions[0] = transaction1; //puts transaction1 in the zero index 
-        transactions[1] = transaction2; //puts transaction1 in the first index 
+        transactions[1] = transaction2; //puts transaction2 in the first index 
+        transactions[2] = transaction3; //puts transaction3 in the first index 
 
         boolean foundProblem = false; //boolean value to determine if java found a problem
         
@@ -74,7 +73,7 @@ public class AuditableBankingTests {
         
         if(resultCount == 3 && transactions[2][2]==1) { 
           //looks for specific values for when looking at # given by calling ProcessCommand 
-            System.out.println("PASSED TESTS 1/1 of testProcessCommand!!!"); //lets me know if the test worked
+            System.out.println("PASSED TESTS 1/2 of testProcessCommand!!!"); //lets me know if the test worked
             foundProblem = false; 
         } else {
             System.out.println(
@@ -83,6 +82,22 @@ public class AuditableBankingTests {
             foundProblem = true;
         }
         
+        command = "0 1 0 1 0 1 1"; //represents an input that a user could use
+        count = 2;
+        
+        resultCount = AuditableBanking.processCommand(command, transactions, count);
+        //calls processCommand method in order to determine number of transactions
+        
+        if(resultCount == 3 && transactions[2][2]==0) { 
+          //looks for specific values for when looking at # given by calling ProcessCommand 
+            System.out.println("PASSED TESTS 2/2 of testProcessCommand!!!"); //lets me know if the test worked
+            foundProblem = false; 
+        } else {
+            System.out.println(
+                "FAILURE: processCommand returned: "+ resultCount+ ", and transactions contained: "
+                    + Arrays.deepToString(transactions)); //Converts multidimensional arrays to strings
+            foundProblem = true;
+        }
         return !foundProblem;
     }
 

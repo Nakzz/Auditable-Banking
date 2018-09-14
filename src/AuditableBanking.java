@@ -34,18 +34,36 @@ import java.util.Scanner;
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 
+
+/**
+ * Implementation of a simple bank accounting system. One complication within this system is that
+ * banking transactions (deposits and withdraws) can be represented internally in one of three
+ * different ways. Comparing and contrasting different data representations and different data
+ * structures will be a recurring theme throughout.
+ */
+
 public class AuditableBanking {
 
-    public static void main(String[] args) {
+    /**
+     * The main method of the program which contains the driver.
+     */
 
+    public static void main(String[] args) {
         Scanner scnr = new Scanner(System.in);
         String input = "";
-        int[][] allTransactions = new int[100][]; //Initialized and declared sized of oversized array 
+        int[][] allTransactions = new int[100][]; // Initialized and declared sized of oversized
+                                                  // array
         int allTransactionsCount = 0;
 
-        System.out.println("========== Welcome to the Auditable Banking App =========="); //1st messager that user will see
+        System.out.println("========== Welcome to the Auditable Banking App =========="); // 1st
+                                                                                          // messager
+                                                                                          // that
+                                                                                          // user
+                                                                                          // will
+                                                                                          // see
 
-        while (!input.equalsIgnoreCase("Q")) { //checks to see if user enters Q, if user does then statement doesn't run
+        while (!input.equalsIgnoreCase("Q")) { // checks to see if user enters Q, if user does then
+                                               // statement doesn't run
             System.out.println("COMMAND MENU:");
             System.out
                 .println("  Submit a Transaction (enter sequence of integers separated by spaces)");
@@ -54,13 +72,32 @@ public class AuditableBanking {
             System.out.println("  [Q]uit Program");
             System.out.println("ENTER COMMAND: ");
 
-            input = scnr.nextLine().toUpperCase(); //takes whatever the user inputs and makes it uppercase
+            input = scnr.nextLine().toUpperCase(); // takes whatever the user inputs and makes it
+                                                   // uppercase
 
-            allTransactionsCount = processCommand(input, allTransactions, allTransactionsCount); // calls processCommand method to get the # of transactions 
+            allTransactionsCount = processCommand(input, allTransactions, allTransactionsCount); // calls
+                                                                                                 // processCommand
+                                                                                                 // method
+                                                                                                 // to
+                                                                                                 // get
+                                                                                                 // the
+                                                                                                 // #
+                                                                                                 // of
+                                                                                                 // transactions
             System.out.println("");
         }
 
-        System.out.println("============ Thank you for using this App!!!! ============"); //once allTransactionCount is recieved or Q is inputed then this message is outputed
+        System.out.println("============ Thank you for using this App!!!! ============"); // once
+                                                                                          // allTransactionCount
+                                                                                          // is
+                                                                                          // recieved
+                                                                                          // or Q is
+                                                                                          // inputed
+                                                                                          // then
+                                                                                          // this
+                                                                                          // message
+                                                                                          // is
+                                                                                          // outputed
 
 
 
@@ -79,15 +116,16 @@ public class AuditableBanking {
      */
     public static int submitTransactions(int[] newTransactions, int[][] allTransactions,
         int allTransactionsCount) {
-        if (allTransactions.length == allTransactionsCount) { //Checks to see if the array is full
+        if (allTransactions.length == allTransactionsCount) { // Checks to see if the array is full
             return allTransactionsCount;
         }
 
-        allTransactions[allTransactionsCount] = newTransactions; //inputs each new transaction into the array
-        allTransactionsCount++; //increase count
+        allTransactions[allTransactionsCount] = newTransactions; // inputs each new transaction into
+                                                                 // the array
+        allTransactionsCount++; // increase count
 
         // DEBUG AJ
-//        System.out.println("Final allTransactionCount: " + allTransactionsCount);
+        // System.out.println("Final allTransactionCount: " + allTransactionsCount);
 
         return allTransactionsCount;
 
@@ -111,47 +149,79 @@ public class AuditableBanking {
     public static int processCommand(String command, int[][] allTransactions,
         int allTransactionsCount) {
 
-        String[] commandAsArray = new String[command.length()]; //Initialized and declared sized of perfectly-sized array 
+        String[] commandAsArray = new String[command.length()]; // Initialized and declared sized of
+                                                                // perfectly-sized array
 
-        commandAsArray = command.split(" "); //puts the users input into an the commandAsArray
-
-
-        int[] newTransaction = new int[commandAsArray.length]; //Initialized and declared sized of perfectly-sized array
-        int balance, overdraftNum; //declares variables
+        commandAsArray = command.split(" "); // puts the users input into an the commandAsArray
 
 
-        if (allTransactions.length == allTransactionsCount) { //Checks to see if the array is full
+        int[] newTransaction = new int[commandAsArray.length]; // Initialized and declared sized of
+                                                               // perfectly-sized array
+        int balance, overdraftNum; // declares variables
+
+
+        if (allTransactions.length == allTransactionsCount) { // Checks to see if the array is full
             return allTransactionsCount;
-        } else if (commandAsArray[0].equalsIgnoreCase("0") //determines if its a binary transaction, 
-            || commandAsArray[0].equalsIgnoreCase("1") || commandAsArray[0].equalsIgnoreCase("2")) { //determines if its a Integer or withdraw transaction
+        } else if (commandAsArray[0].equalsIgnoreCase("0") // determines if its a binary
+                                                           // transaction,
+            || commandAsArray[0].equalsIgnoreCase("1") || commandAsArray[0].equalsIgnoreCase("2")) { // determines
+                                                                                                     // if
+                                                                                                     // its
+                                                                                                     // a
+                                                                                                     // Integer
+                                                                                                     // or
+                                                                                                     // withdraw
+                                                                                                     // transaction
 
             for (int c = 0; c < commandAsArray.length; c++) {
-                newTransaction[c] = Integer.parseInt(commandAsArray[c]); //converts all the string values into integer values
+                newTransaction[c] = Integer.parseInt(commandAsArray[c]); // converts all the string
+                                                                         // values into integer
+                                                                         // values
             }
 
             allTransactionsCount =
-                submitTransactions(newTransaction, allTransactions, allTransactionsCount); //calls submitTransactions in order to get Tansaction count
-        } else if (commandAsArray[0].equalsIgnoreCase("B")) { //determine that user input is looking for balance
+                submitTransactions(newTransaction, allTransactions, allTransactionsCount); // calls
+                                                                                           // submitTransactions
+                                                                                           // in
+                                                                                           // order
+                                                                                           // to get
+                                                                                           // Tansaction
+                                                                                           // count
+        } else if (commandAsArray[0].equalsIgnoreCase("B")) { // determine that user input is
+                                                              // looking for balance
 
-            balance = calculateCurrentBalance(allTransactions, allTransactionsCount); //uses calculateCurrent.. Method to return balance
+            balance = calculateCurrentBalance(allTransactions, allTransactionsCount); // uses
+                                                                                      // calculateCurrent..
+                                                                                      // Method to
+                                                                                      // return
+                                                                                      // balance
 
             System.out.println("Current Balance: " + balance);
 
-        } else if (commandAsArray[0].equalsIgnoreCase("O")) { //determines that user input is looking for overdraft number
+        } else if (commandAsArray[0].equalsIgnoreCase("O")) { // determines that user input is
+                                                              // looking for overdraft number
 
-            overdraftNum = calculateNumberOfOverdrafts(allTransactions, allTransactionsCount); //uses calculateCurrent.. Method to return overDraft #
+            overdraftNum = calculateNumberOfOverdrafts(allTransactions, allTransactionsCount); // uses
+                                                                                               // calculateCurrent..
+                                                                                               // Method
+                                                                                               // to
+                                                                                               // return
+                                                                                               // overDraft
+                                                                                               // #
 
             System.out.println("Number of Overdrafts: " + overdraftNum);
         }
 
 
 
-        return allTransactionsCount; //the entire goal of this method is to return the total number of transactions
+        return allTransactionsCount; // the entire goal of this method is to return the total number
+                                     // of transactions
     }
 
     /**
-     * Takes into account the all of the types of transactions(Binary, Integer, and Quick Withdraw) and figures out its
-     * its impact on the balance. Different types of starting indexes determine what type of transaction is being processed.
+     * Takes into account the all of the types of transactions(Binary, Integer, and Quick Withdraw)
+     * and figures out its its impact on the balance. Different types of starting indexes determine
+     * what type of transaction is being processed.
      * 
      * @param allTransactions is the collection that newTransactions is being added to (oversize).
      * @param allTransactionsCount is the number of transaction groups within allTransactions
@@ -164,7 +234,8 @@ public class AuditableBanking {
         int balance = 0;
         int[] quickWithdraw = {20, 40, 80, 100};
 
-        for (int i = 0; i < allTransactionsCount; i++) { //the loop will run for every transaction made
+        for (int i = 0; i < allTransactionsCount; i++) { // the loop will run for every transaction
+                                                         // made
 
             int[] eachTransaction = allTransactions[i];
 
@@ -180,25 +251,28 @@ public class AuditableBanking {
             else if (eachTransaction[0] == 1) { // Integer Amount Transactions
 
                 for (int c = 1; c < eachTransaction.length; c++) {
-                    balance += eachTransaction[c]; //desposits based on user input
+                    balance += eachTransaction[c]; // desposits based on user input
                 }
 
             } else if (eachTransaction[0] == 2) { // Quick Withdraw Transactions
 
                 for (int c = 1; c < eachTransaction.length; c++) {
-                    
-                    balance += -quickWithdraw[c-1] * eachTransaction[c] ; //figures out the number of transactions for each fixed withdraw
+
+                    balance += -quickWithdraw[c - 1] * eachTransaction[c]; // figures out the number
+                                                                           // of transactions for
+                                                                           // each fixed withdraw
                 }
             }
 
         }
-        return balance; //returns the users balance
+        return balance; // returns the users balance
     }
 
     /**
-     * Takes into account the all of the types of transactions(Binary, Integer, and Quick Withdraw) and figures out its
-     * its impact on the balance. If the balance becomes negative or the withdraw amount causes the balance to become 
-     * negative then the overdraftnum will increase. This method will do nothing other than return OverDraft Number.
+     * Takes into account the all of the types of transactions(Binary, Integer, and Quick Withdraw)
+     * and figures out its its impact on the balance. If the balance becomes negative or the
+     * withdraw amount causes the balance to become negative then the overdraftnum will increase.
+     * This method will do nothing other than return OverDraft Number.
      * 
      * @param allTransactions is the collection that newTransactions is being added to (oversize).
      * @param allTransactionsCount is the number of transaction groups within allTransactions
@@ -209,25 +283,29 @@ public class AuditableBanking {
 
     public static int calculateNumberOfOverdrafts(int[][] allTransactions,
         int allTransactionsCount) {
-        int balance = 0; //Initialized int
-        int overdraftNum = 0; //Initialized int
-        int[] quickWithdraw = {20, 40, 80, 100}; //establishes a 1d array with a fixed size(perfect size array)
+        int balance = 0; // Initialized int
+        int overdraftNum = 0; // Initialized int
+        int[] quickWithdraw = {20, 40, 80, 100}; // establishes a 1d array with a fixed size(perfect
+                                                 // size array)
 
-        for (int i = 0; i < allTransactionsCount; i++) { //this for loop will allow the method to go through every transaction
+        for (int i = 0; i < allTransactionsCount; i++) { // this for loop will allow the method to
+                                                         // go through every transaction
 
             int[] eachTransaction = allTransactions[i];
 
 
             if (eachTransaction[0] == 0) // Binary Amount Transactions
 
-                for (int c = 1; c < eachTransaction.length; c++) { //for statement used to figure out the difference between a withdraw and deposit
+                for (int c = 1; c < eachTransaction.length; c++) { // for statement used to figure
+                                                                   // out the difference between a
+                                                                   // withdraw and deposit
                     if (eachTransaction[c] == 0) { // Withdraw dollar
-                        balance += -1; //removes $1 from the total user balance
+                        balance += -1; // removes $1 from the total user balance
 
                         if (balance < 0) {
-                            overdraftNum++; //increases the overdraft numbere
+                            overdraftNum++; // increases the overdraft numbere
                             // //DEBUG AJ
-//                            System.out.println("Incrementing overdraft. Balance: : " + balance);
+                            // System.out.println("Incrementing overdraft. Balance: : " + balance);
                         }
 
                     } else if (eachTransaction[c] == 1) { // Deposits dollar
@@ -240,13 +318,16 @@ public class AuditableBanking {
                 // //DEBUG AJ
                 // System.out.println("Entered Integer Transaction Processing: "+ commandAsArray);
                 //
-                for (int c = 1; c < eachTransaction.length; c++) { 
+                for (int c = 1; c < eachTransaction.length; c++) {
                     balance += eachTransaction[c];
 
-                    if (balance < 0 && eachTransaction[c] < 0) { //checks to see that balance is negative and value within eachTransaction array is negative  
+                    if (balance < 0 && eachTransaction[c] < 0) { // checks to see that balance is
+                                                                 // negative and value within
+                                                                 // eachTransaction array is
+                                                                 // negative
                         overdraftNum++;
                         // //DEBUG AJ
-                        //System.out.println("Incrementing overdraft. Balance: : " + balance);
+                        // System.out.println("Incrementing overdraft. Balance: : " + balance);
                     }
                 }
 
@@ -255,21 +336,24 @@ public class AuditableBanking {
                 // //DEBUG AJ
                 // System.out.println("Entered Quick Transaction Processing: "+ commandAsArray);
                 //
-                for (int c = 1; c < eachTransaction.length; c++) { //runs through every withdraw transaction within the array
-                    balance += -quickWithdraw[(eachTransaction[c])]; //subtracts withdraw value within the array from the total balance
+                for (int c = 1; c < eachTransaction.length; c++) { // runs through every withdraw
+                                                                   // transaction within the array
+                    balance += -quickWithdraw[(eachTransaction[c])]; // subtracts withdraw value
+                                                                     // within the array from the
+                                                                     // total balance
                 }
-                if (balance < 0) { //check to see if balance is a negative value
+                if (balance < 0) { // check to see if balance is a negative value
                     overdraftNum++;
                     // //DEBUG AJ
-//                    System.out.println("Incrementing overdraft. Balance: : " + balance);
+                    // System.out.println("Incrementing overdraft. Balance: : " + balance);
                 }
             }
 
 
             // DEBUG AJ
-//            System.out.println("End of a transaction group. Balance: : " + balance);
-//            System.out.println();
-//            System.out.println();
+            // System.out.println("End of a transaction group. Balance: : " + balance);
+            // System.out.println();
+            // System.out.println();
 
         }
 
